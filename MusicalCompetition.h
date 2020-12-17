@@ -35,9 +35,9 @@ public:
 	void addRecord(string name, int year, string country, string instrument, int place);
 	void editRecord(int recordToEdit, Participant* editedRecord);
 
-	Participant* findRecordByName(string name);
-	Participant* findRecordByYear(int year);
-	Participant* findRecordByPlace(int place);
+	vector<Participant>* findRecordByName(string name);
+	vector<Participant>* findRecordByYear(int year);
+	vector<Participant>* findRecordByPlace(int place);
 
 	void sortRecordsByName();
 	void sortRecordsByYear();

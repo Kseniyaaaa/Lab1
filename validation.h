@@ -4,7 +4,6 @@
 
 using namespace std;
 
-
 bool isNumberNumeric();
 double getNumber();
 

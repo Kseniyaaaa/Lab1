@@ -28,7 +28,7 @@ Account* MusicalCompetition::login(string login, string password)
 	}
 
 	this->current_account = account;
-	return this->current_account;
+	return current_account;
 }
 
 
@@ -98,19 +98,19 @@ void MusicalCompetition::editRecord(int recordToEdit, Participant* editedRecord)
 }
 
 
-Participant* MusicalCompetition::findRecordByName(string name)
+vector<Participant>* MusicalCompetition::findRecordByName(string name)
 {
 	return this->pStorage->findRecordByName(name);
 }
 
 
-Participant* MusicalCompetition::findRecordByYear(int year)
+vector<Participant>* MusicalCompetition::findRecordByYear(int year)
 {
 	return this->pStorage->findRecordByYear(year);
 }
 
 
-Participant* MusicalCompetition::findRecordByPlace(int place)
+vector<Participant>* MusicalCompetition::findRecordByPlace(int place)
 {
 	return this->pStorage->findRecordByPlace(place);
 }

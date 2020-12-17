@@ -12,13 +12,13 @@ const int SALT_LENGTH = 7;
 
 AccountStorage::AccountStorage()
 {
-	this->accounts = this->readAccountsFile();
+	this->items = this->readItemsFile();
 }
 
 
-vector<Account>* AccountStorage::readAccountsFile()
+vector<Account>* AccountStorage::readItemsFile()
 {
-	vector<Account>* accounts = new vector<Account>();
+	vector<Account>* items = new vector<Account>();
 
 	ifstream fin(FILE_OF_ACCOUNTS, ios::in);
 	if (!fin.is_open()) {
@@ -28,9 +28,9 @@ vector<Account>* AccountStorage::readAccountsFile()
 			<< account->hash_password << " "
 			<< account->salt << " "
 			<< account->role << " "
-			<< account->access << endl;
+			<< account->access;
 		fout.close();
-		accounts->push_back(*account);
+		items->push_back(*account);
 	}
 
 	else
@@ -43,25 +43,25 @@ vector<Account>* AccountStorage::readAccountsFile()
 				>> account->salt
 				>> account->role
 				>> account->access;
-			accounts->push_back(*account);
+			items->push_back(*account);
 		}
 	}
 	fin.close();
-	return accounts;
+	return items;
 }
 
 
-void AccountStorage::writeAccountFile()
+void AccountStorage::writeToFile()
 {
 	ofstream fout(FILE_OF_ACCOUNTS, ios::out);
-	for (int i = 0; i < accounts->size(); i++)
+	for (int i = 0; i < items->size(); i++)
 	{
-		fout << accounts->at(i).login << " "
-			<< accounts->at(i).hash_password << " "
-			<< accounts->at(i).salt << " "
-			<< accounts->at(i).role << " "
-			<< accounts->at(i).access << endl;
-		if (i < accounts->size() - 1)
+		fout << items->at(i).login << " "
+			<< items->at(i).hash_password << " "
+			<< items->at(i).salt << " "
+			<< items->at(i).role << " "
+			<< items->at(i).access;
+		if (i < items->size() - 1)
 		{
 			fout << endl;
 		}
@@ -70,7 +70,7 @@ void AccountStorage::writeAccountFile()
 }
 
 
-void AccountStorage::writeToEndAccountFile(Account account)
+void AccountStorage::writeToEndOfFile(Account account)
 {
 	ofstream fadd(FILE_OF_ACCOUNTS, ios::app);
 	fadd << endl;
@@ -85,10 +85,10 @@ void AccountStorage::writeToEndAccountFile(Account account)
 
 Account* AccountStorage::getAccount(string login)
 {
-	for (int i = 0; i < accounts->size(); i++)
+	for (int i = 0; i < items->size(); i++)
 	{
-		if (accounts->at(i).login == login) {
-			return &accounts->at(i);
+		if (items->at(i).login == login) {
+			return &items->at(i);
 		}
 	}
 	return NULL;
@@ -145,15 +145,15 @@ void AccountStorage::addAccount(string login, string password, int role, int acc
 	account->role = role;
 	account->access = access;
 
-	this->accounts->push_back(*account);
-	writeToEndAccountFile(*account);
+	this->items->push_back(*account);
+	writeToEndOfFile(*account);
 }
 
 
 void AccountStorage::addAccount(Account* account)
 {
-	this->accounts->push_back(*account);
-	writeToEndAccountFile(*account);
+	this->items->push_back(*account);
+	writeToEndOfFile(*account);
 }
 
 
@@ -161,20 +161,18 @@ void AccountStorage::editAccount(Account* accountToEdit, Account* editedAccount)
 {
 	this->deleteAccount(accountToEdit->login);
 	this->addAccount(editedAccount);
-	writeAccountFile();
+	writeToFile();
 }
 
 
 void AccountStorage::deleteAccount(string login)
 {
-	vector<Account>* accounts = getAccounts();
-
-	for (int i = 0; i < accounts->size(); i++)
+	for (int i = 0; i < items->size(); i++)
 	{
-		if (login == accounts->at(i).login)
+		if (login == items->at(i).login)
 		{
-			accounts->erase(accounts->begin() + i);
-			writeAccountFile();
+			items->erase(items->begin() + i);
+			writeToFile();
 			return;
 		}
 	}
@@ -186,5 +184,5 @@ void AccountStorage::deleteAccount(string login)
 
 vector<Account>* AccountStorage::getAccounts()
 {
-	return this->accounts;
+	return this->items;
 }

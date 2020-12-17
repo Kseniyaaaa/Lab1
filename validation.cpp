@@ -24,14 +24,17 @@ double getNumber()
 	while (true)
 	{
 		cin >> item;
-		if (isNumberNumeric())
+		if (isNumberNumeric() && item >= 0)
 		{
 			break;
+		}
+		else if (item < 0) {
+			cout << "Введите положительное число: ";
 		}
 		else
 		{
 			cout << "Некорректный ввод данных!" << endl;
-			cout << "Введите числовые данные" << endl;
+			cout << "Введите числовые данные: ";
 		}
 	}
 	return item;
@@ -68,34 +71,6 @@ string transformPassword()
 	cout << endl;
 	return password;
 }
-
-
-//string getSalt() 
-//{
-//	srand(time(NULL));
-//	string alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-//	string salt = "";
-//	for (int i = 0; i < SALT_LENGTH; ++i) {
-//		salt += alphabet[rand() % (sizeof(alphabet) - 1)];
-//	}
-//
-//	return salt;
-//}
-//
-//
-//long long int hashPassword(string password, string salt)
-//{
-//	string password_with_salt = password + salt;
-//	const int p = 33;
-//	long long hash = 0, p_pow = 1;
-//	for (int i = 0; i < password_with_salt.length(); ++i)
-//	{
-//		hash = (hash + ((int)password_with_salt.at(i) - (int)'a' + 1) * p_pow) % LONG_MAX;
-//		p_pow *= p;
-//	}
-//
-//	return hash;
-//}
 
 
 int getCurrentYear()

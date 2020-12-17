@@ -9,12 +9,11 @@ using namespace std;
 class AccountStorage
 {
 private:
-	vector<Account>* accounts;
+	vector<Account>* items;
 
-	vector<Account>* readAccountsFile();
-	void writeAccountFile();
-
-	void writeToEndAccountFile(Account account);
+	vector<Account>* readItemsFile();
+	void writeToFile();
+	void writeToEndOfFile(Account account);
 
 public:
 	AccountStorage();

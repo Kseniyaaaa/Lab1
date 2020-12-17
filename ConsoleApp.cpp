@@ -115,12 +115,13 @@ void ConsoleApp::editionAccountMenu(Account* account)
 
 	while (true)
 	{
-		cout << "1 - Отредактировать логин " << endl
+		cout << endl << "1 - Отредактировать логин " << endl
 			<< "2 - Отредактировать пароль " << endl
 			<< "3 - Изменить роль " << endl
 			<< "4 - Изменить доступ " << endl
 			<< "5 - Сохранить изменения" << endl
 			<< "0 - ВЫХОД" << endl;
+		cout << "Выберите, что хотите сделать: ";
 		item = getNumber();
 		cout << endl;
 
@@ -179,11 +180,12 @@ void ConsoleApp::chooseAccountToEdit()
 
 void ConsoleApp::deleteAccountMenu()
 {
-	string login;
+	string login, cur_login;
 	cout << "Введите логин аккаунта, который хотите удалить: ";
 	cin >> login;
 
-	if (login == this->musicalCompetition->current_account->login) {
+	cur_login = this->musicalCompetition->current_account->login;
+	if (login == cur_login) {
 		cout << "Ваш аккаунт не может быть удален." << endl;
 	}
 	else {
@@ -248,10 +250,10 @@ void ConsoleApp::showAdminAccountMenu()
 void ConsoleApp::showRecord(Participant* record)
 {
 	cout << record->name << setw(20)
-		<< record->country << setw(10)
-		<< record->year << setw(10)
+		<<  record->country << setw(10)
+		<< record->year << setw(15)
 		<< record->instrument << setw(10)
-		<< record->place << endl;
+		<< record->place << " место" << endl;
 }
 
 
@@ -313,14 +315,14 @@ void ConsoleApp::editionRecordMenu(Participant* record, int i)
 
 	while (true)
 	{
-		cout << "Вы хотите отредактировать: " << record->name << "!" << endl;
-		cout << "1 - Изменить ФИО " << endl
+		cout << endl <<  "1 - Изменить ФИО " << endl
 			<< "2 - Изменить страну " << endl
 			<< "3 - Изменить год рождения " << endl
 			<< "4 - Изменить инструмент " << endl
 			<< "5 - Изменить занятое место " << endl
 			<< "6 - Сохранить изменения" << endl
 			<< "0 - ВЫХОД" << endl;
+		cout << endl << "Выберите, что хотите сделать: ";
 		item = getNumber();
 		cout << endl;
 
@@ -331,41 +333,34 @@ void ConsoleApp::editionRecordMenu(Participant* record, int i)
 
 		case 1:
 			cout << "Введите ФИО: ";
-			//cin >> editedRecord->name;
-			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			getline(cin, editedRecord->name);
 			break;
 
 		case 2:
 			cout << "Введите страну: ";
-			//cin >> editedRecord->country;
-			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			getline(cin, editedRecord->country);
 			break;
 
 		case 3:
 			cout << "Измените год рождения: ";
-			//cin >> editedRecord->year;
 			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			editedRecord->year = getNumber();
 			break;
 
 		case 4:
 			cout << "Измените инструмент: ";
-			//cin >> editedRecord->instrument;
-			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			getline(cin, editedRecord->instrument);
 			break;
 
 		case 5:
 			cout << "Измените занятое место: ";
-			//cin >> editedRecord->place;
 			cin.ignore(numeric_limits<std::streamsize>::max(), '\n');
 			editedRecord->place = getNumber();
 			break;
 
 		case 6:
 			this->musicalCompetition->editRecord(i, editedRecord);
+			cout << "Запись успешно отредактирована!" << endl;
 			break;
 
 		default:
@@ -373,7 +368,6 @@ void ConsoleApp::editionRecordMenu(Participant* record, int i)
 			break;
 		}
 	}
-	cout << "Запись успешно отредактирована!" << endl;
 }
 
 
@@ -402,17 +396,20 @@ void ConsoleApp::findByName()
 	getline(cin, name);
 	cout << endl;
 
-	Participant* record = this->musicalCompetition->findRecordByName(name);
-	if (record != NULL)
+	vector<Participant>* r_vector = this->musicalCompetition->findRecordByName(name);
+	
+	if (r_vector != NULL)
 	{
 		cout << "Поиск успешно завершен: " << endl;
-		showRecord(record);
+		for (int i = 0; i < r_vector->size(); i++)
+		{
+			showRecord(&r_vector->at(i));
+		}
 	}
 	else {
 		cout << "Поиск завершен: " << endl;
 		cout << "Таких участников нет" << endl;
 	}
-	
 }
 
 
@@ -423,11 +420,15 @@ void ConsoleApp::findByYear()
 	year = getNumber();
 	cout << endl;
 
-	Participant* record = this->musicalCompetition->findRecordByYear(year);
-	if (record != NULL)
+	vector<Participant>* r_vector = this->musicalCompetition->findRecordByYear(year);
+
+	if (r_vector != NULL)
 	{
 		cout << "Поиск успешно завершен: " << endl;
-		showRecord(record);
+		for (int i = 0; i < r_vector->size(); i++)
+		{
+			showRecord(&r_vector->at(i));
+		}
 	}
 	else {
 		cout << "Поиск завершен: " << endl;
@@ -443,11 +444,15 @@ void ConsoleApp::findByPlace()
 	place = getNumber();
 	cout << endl;
 
-	Participant* record = this->musicalCompetition->findRecordByPlace(place);
-	if (record != NULL)
+	vector<Participant>* r_vector = this->musicalCompetition->findRecordByPlace(place);
+
+	if (r_vector != NULL)
 	{
 		cout << "Поиск успешно завершен: " << endl;
-		showRecord(record);
+		for (int i = 0; i < r_vector->size(); i++)
+		{
+			showRecord(&r_vector->at(i));
+		}
 	}
 	else {
 		cout << "Поиск завершен: " << endl;
@@ -639,7 +644,7 @@ void ConsoleApp::task2()
 		if (records->at(i).year >= getCurrentYear() - 12) {
 			cout << endl;
 			Participant p = records->at(i);
-			cout << i + 1 << p.name << ". "
+			cout << i + 1 << ". " << p.name
 				<< p.country << " " << p.year << "(" << getCurrentYear() - p.year << " лет/год/а)" << " "
 				<< p.instrument << " " << p.place << " место" << endl;
 			cout << "  ---------------------------------------------------------------------------------------------- " << endl;

@@ -21,11 +21,11 @@ public:
 	void addRecord(string name, int year, string country, string instrument, int place);
 	void addRecord(Participant* record);
 	void editRecord(int i, Participant* editedRecord);
-	void deleteRecord(int i); // string name, int year, string country, string instrument, int place);
+	void deleteRecord(int i);
 
-	Participant* findRecordByName(string name);
-	Participant* findRecordByYear(int year);
-	Participant* findRecordByPlace(int place);
+	vector<Participant>* findRecordByName(string name);
+	vector<Participant>* findRecordByYear(int year);
+	vector<Participant>* findRecordByPlace(int place);
 
 	void sortRecordsByName();
 	void sortRecordsByYear();
@@ -36,7 +36,5 @@ public:
 	vector<Participant>* getRecords();
 };
 
-bool NameComparator(Participant participant_a, Participant participant_b);
-bool YearComparator(Participant participant_a, Participant participant_b);
 bool PlaceComparator(Participant participant_a, Participant participant_b);
 bool YearDescComparator(Participant participant_a, Participant participant_b);

@@ -9,7 +9,7 @@
 #include <vector>
 #include <algorithm>
 
-const string FILE_OF_RECORDS = "data.txt";
+const string FILE_OF_RECORDS = "records.txt";
 
 ParticipantStorage::ParticipantStorage()
 {
@@ -64,12 +64,12 @@ void ParticipantStorage::writeRecordFile()
 void ParticipantStorage::writeToEndRecordFile(Participant record)
 {
 	ofstream fadd(FILE_OF_RECORDS, ios::app);
-	fadd << endl
-		<< record.name << " "
+	fadd << record.name << " "
 		<< record.country << " "
 		<< record.year << " "
 		<< record.instrument << " "
 		<< record.place;
+	fadd << endl;
 	fadd.close();
 }
 
@@ -105,8 +105,6 @@ void ParticipantStorage::editRecord(int i, Participant* editedRecord)
 
 void ParticipantStorage::deleteRecord(int i)
 {
-	vector<Participant>* records = getRecords();
-
 	if (i >= 0 && i < records->size())
 	{
 		records->erase(records->begin() + i);
@@ -118,81 +116,114 @@ void ParticipantStorage::deleteRecord(int i)
 }
 
 
-Participant* ParticipantStorage::findRecordByName(string name)
+vector<Participant>* ParticipantStorage::findRecordByName(string name)
 {
+	vector<Participant>* r_vector = new vector<Participant>;
+
 	for (int i = 0; i < records->size(); i++)
 	{
 		if (records->at(i).name.find(name) != string::npos)
 		{ 
-			return &records->at(i);
+			r_vector->push_back(records->at(i));
 		}
 	}
 
-	return NULL;
+	if (r_vector->size() == 0) {
+		return NULL;
+	}
+
+	return r_vector;
 }
 
 
-Participant* ParticipantStorage::findRecordByYear(int year)
+vector<Participant>* ParticipantStorage::findRecordByYear(int year)
 {
+	vector<Participant>* r_vector = new vector<Participant>;
+
 	for (int i = 0; i < records->size(); i++)
 	{
 		if (year == records->at(i).year)
 		{
-			return &records->at(i);
+			r_vector->push_back(records->at(i));
 		}
 	}
 
-	return NULL;
+	if (r_vector->size() == 0) {
+		return NULL;
+	}
+
+	return r_vector;
 }
 
 
-Participant* ParticipantStorage::findRecordByPlace(int place)
+vector<Participant>* ParticipantStorage::findRecordByPlace(int place)
 {
+	vector<Participant>* r_vector = new vector<Participant>();
+
 	for (int i = 0; i < records->size(); i++)
 	{
 		if (place == records->at(i).place)
-		{
-			return &records->at(i);
+		{ 
+			r_vector->push_back(records->at(i));
 		}
 	}
 
-	return NULL;
-}
+	if (r_vector->size() == 0) {
+		return NULL;
+	}
 
-
-bool NameComparator(Participant participant_a, Participant participant_b)
-{
-	return participant_a.name < participant_b.name;
+	return r_vector;
 }
 
 
 void ParticipantStorage::sortRecordsByName()
 {
-	sort(records->begin(), records->end(), NameComparator);
-}
-
-
-bool YearComparator(Participant participant_a, Participant participant_b)
-{
-    return participant_a.name < participant_b.name;
+	for (int i = 0; i < records->size() - 1; i++)
+	{
+		for (int j = i + 1; j < records->size(); j++)
+		{
+			if (records->at(i).name > records->at(j).name)
+			{
+				swap(records->at(i), records->at(j));
+			}
+		}
+	}
 }
 
 
 void ParticipantStorage::sortRecordsByYear()
 {
-	sort(records->begin(), records->end(), YearDescComparator);
+	for (int i = 0; i < records->size() - 1; i++)
+	{
+		for (int j = i + 1; j < records->size(); j++)
+		{
+			if (records->at(i).year > records->at(j).year)
+			{
+				swap(records->at(i), records->at(j));
+			}
+		}
+	}
 }
 
 
 bool PlaceComparator(Participant participant_a, Participant participant_b)
 {
-	return participant_a.name > participant_b.name;
+	return participant_a.place < participant_b.place;
 }
 
 
 void ParticipantStorage::sortRecordsByPlace()
 {
-	sort(records->begin(), records->end(), PlaceComparator);
+	for (int i = 0; i < records->size() - 1; i++)
+	{
+		for (int j = i + 1; j < records->size(); j++)
+		{
+			if (records->at(i).place > records->at(j).place)
+			{
+				swap(records->at(i), records->at(j));
+			}
+		}
+	}
 }
 
 

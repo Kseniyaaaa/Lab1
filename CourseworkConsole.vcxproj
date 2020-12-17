@@ -145,15 +145,14 @@
     <ClInclude Include="MusicalCompetition.h" />
     <ClInclude Include="Participant.h" />
     <ClInclude Include="ParticipantStorage.h" />
+    <ClInclude Include="Storage.h" />
     <ClInclude Include="validation.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Account.cpp" />
     <ClCompile Include="AccountStorage.cpp" />
     <ClCompile Include="ConsoleApp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MusicalCompetition.cpp" />
-    <ClCompile Include="Participant.cpp" />
     <ClCompile Include="ParticipantStorage.cpp" />
     <ClCompile Include="validation.cpp" />
   </ItemGroup>
